@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  /* border: 1px solid black; */
+  justify-content: space-between;
+}
+
+.input {
+  /* border: 1px solid red; */
+  width: 45%;
+}
+
+.error-message {
+  /* border: 1px solid blue; */
+  width: 50%;
+}
