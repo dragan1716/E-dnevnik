@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import classes from "./LoginCard.module.css";
+import { useEffect, useState } from "react";
 
 const LoginCard = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -23,6 +28,44 @@ const LoginCard = () => {
   });
 
   console.log(formik.errors);
+
+  const handleLogin = async () => {
+    try {
+      if (!formik.values.email || !formik.values.password) {
+        setErrorMessage("Email i lozinka nisu uneseni! ");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formik.values.email,
+          password: formik.values.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Login failed: ", errorData.message);
+        setErrorMessage(
+          "Email ili lozinka ne postoje! Molimo vas unesite ponovo. "
+        );
+
+        return;
+      }
+
+      navigate("/home");
+    } catch (error) {
+      console.log("Login error: ", error);
+    }
+  };
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [formik.values.email, formik.values.password]);
   return (
     <>
       <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border">
@@ -70,7 +113,7 @@ const LoginCard = () => {
             <p className="text-red-500">{formik.errors.password}</p>
           ) : null}
 
-          <div className="-ml-2.5">
+          {/* <div className="-ml-2.5">
             <div className="inline-flex items-center">
               <label
                 htmlFor="checkbox"
@@ -105,12 +148,15 @@ const LoginCard = () => {
                 Zapamti podatke
               </label>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="p-6 pt-0">
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           <button
             className="block w-full select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
+            onClick={handleLogin}
+            disabled={!formik.isValid || formik.isSubmitting}
           >
             Prijavite se
           </button>

@@ -8,11 +8,14 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
-  //originalni kod
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
+  if(await User.isJMBGTaken(userBody.jmbg)){
+    throw new ApiError(httpStatus.BAD_REQUEST, "JMBG je već iskorišćen!");
+  }
+  
   const user = await User.create(userBody);
   console.log(user);
 

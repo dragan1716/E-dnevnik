@@ -2,6 +2,7 @@
   display: flex;
   /* border: 1px solid black; */
   justify-content: space-between;
+  /* text-align: center; */
 }
 
 .input {
@@ -12,4 +13,5 @@
 .error-message {
   /* border: 1px solid blue; */
   width: 50%;
+  padding-top: 23px;
 }

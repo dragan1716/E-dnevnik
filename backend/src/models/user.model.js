@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema(
       trim: true,
     },
     jmbg: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
@@ -78,6 +78,17 @@ userSchema.plugin(paginate);
  */
 userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+  return !!user;
+};
+
+/**
+ * Check if jmbg is taken
+ * @param {string} jmbg - The user's jmbg
+ * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
+ * @returns {Promise<boolean>}
+*/
+userSchema.statics.isJMBGTaken = async function (jmbg, excludeUserId) {
+  const user = await this.findOne({ jmbg, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

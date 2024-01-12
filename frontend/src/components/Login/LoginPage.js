@@ -2,6 +2,7 @@ import LoginCard from "./LoginCard";
 import classes from "./LoginPage.module.css";
 
 const LoginPage = () => {
+
   return (
     <>
       <div>

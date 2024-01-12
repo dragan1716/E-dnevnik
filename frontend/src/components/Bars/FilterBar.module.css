@@ -1,0 +1,17 @@
+.container {
+  background-color: #fff;
+  position: fixed;
+  height: 40px;
+  margin-top: 50px;
+  margin-left: 7%;
+  width: 93%;
+  z-index: 1;
+}
+
+.container ul {
+  display: flex;
+}
+
+.container li {
+  padding: 10px;
+}

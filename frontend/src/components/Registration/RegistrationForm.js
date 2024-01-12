@@ -3,11 +3,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import classes from "./RegistrationForm.module.css";
+import { useState } from "react";
 
 export function RegistrationForm() {
+  const [jmbgError, setJmbgError] = useState("");
+
   const formik = useFormik({
     initialValues: {
-      // firstNameAndLastName: "",
       firstName: "",
       lastName: "",
       jmbg: "",
@@ -17,10 +19,6 @@ export function RegistrationForm() {
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      // firstNameAndLastName: Yup.string()
-      //   .min(7, "Ime i prezime moraju imati najmanje po 3 karaktera!")
-      //   .matches(/^([^ ]+ [^ ]+)$/, "Obavezno je unijeti oba podatka!")
-      //   .required("Polje je obavezno popuniti!"),
       firstName: Yup.string()
         .min(3, "Ime mora imati najmanje 3 karaktera!")
         .required("Polje je obavezno popuniti!"),
@@ -66,8 +64,13 @@ export function RegistrationForm() {
         if (response.ok) {
           const data = await response.json();
           console.log("Registration successful", data);
+          setJmbgError("");
         } else {
           console.error("Registration failed:", response.statusText);
+          if (response.status === 400) {
+            const data = await response.json();
+            setJmbgError(data.message);
+          }
         }
       } catch (error) {
         console.error("Error during registration: ", error.message);
@@ -76,6 +79,15 @@ export function RegistrationForm() {
       resetForm();
     },
   });
+
+  const handleJmbgChange = (e) => {
+    formik.handleChange(e); // Pozivamo izvorni rukovalac za promjenu
+
+    // Provjeravamo da li je uneseno tačno 13 cifara za JMBG
+    if (e.target.value.length > 0) {
+      setJmbgError(""); // Ako je, postavljamo jmbgError na prazan string
+    }
+  };
 
   return (
     <Card color="transparent" shadow={false}>
@@ -148,7 +160,7 @@ export function RegistrationForm() {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={formik.handleChange}
+                onChange={handleJmbgChange}
                 value={formik.values.jmbg}
                 onBlur={formik.handleBlur}
               />
@@ -157,6 +169,7 @@ export function RegistrationForm() {
               {formik.touched.jmbg && formik.errors.jmbg ? (
                 <p className="text-red-500">{formik.errors.jmbg}</p>
               ) : null}
+              {jmbgError && <p className="text-red-500">{jmbgError}</p>}
             </div>
           </div>
 
