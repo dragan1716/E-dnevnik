@@ -7,21 +7,15 @@ import { FaRegChartBar } from "react-icons/fa";
 import { TfiAlarmClock } from "react-icons/tfi";
 import { SlBadge } from "react-icons/sl";
 import { BsPersonArmsUp } from "react-icons/bs";
-import { IoSettingsOutline } from "react-icons/io5";
 import { FaTableList } from "react-icons/fa6";
 import { useState } from "react";
+import { DropdownMenu } from "../Menu/DropdownMenu";
 
 const Navbar = () => {
   const [activeNavItem, setActiveNavItem] = useState("vremenska-linija");
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleNavItemClick = (item) => {
     setActiveNavItem(item);
-    setIsDropdownVisible(false);
-  };
-
-  const handleDropdownClick = () => {
-    setIsDropdownVisible(!isDropdownVisible);
   };
 
   return (
@@ -131,22 +125,8 @@ const Navbar = () => {
             </Link>
           </li>
 
-          <li
-            className={`${classes["top-nav-item"]} ${
-              isDropdownVisible ? classes["active"] : ""
-            } `}
-          >
-            <Link className={classes["link"]} onClick={handleDropdownClick}>
-              <span>Ime i prezime</span>
-              <IoSettingsOutline />
-            </Link>
-            {isDropdownVisible && (
-              <ul>
-                <li>Odjava</li>
-                <li>asdf</li>
-                <li>promjena lozinke</li>
-              </ul>
-            )}
+          <li>
+            <DropdownMenu className={classes["dropdown"]}></DropdownMenu>
           </li>
         </ul>
       </div>
