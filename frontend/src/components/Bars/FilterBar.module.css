@@ -1,11 +1,14 @@
 .container {
   background-color: #fff;
-  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
   height: 40px;
-  margin-top: 50px;
-  margin-left: 7%;
-  width: 93%;
-  z-index: 1;
+  justify-content: space-between;
+  left: 100px;
+  position: fixed;
+  right: 0;
+  top: 50px;
+  z-index: 99900;
 }
 
 .container ul {
