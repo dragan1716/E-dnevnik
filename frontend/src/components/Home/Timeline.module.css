@@ -1,0 +1,46 @@
+.main-content {
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0 10px;
+  position: fixed;
+  top: 110px;
+  left: 100px;
+  width: 100%;
+}
+
+.events {
+  box-sizing: border-box;
+}
+
+.event {
+  width: 70%;
+}
+
+.events .event {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.event-timeline {
+  align-items: flex-end;
+  display: flex;
+  flex: 0 0 190px;
+  flex-direction: column;
+  font-family: sans-serif;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 130px;
+  padding-right: 40px;
+  position: relative;
+  text-align: right;
+}
+
+.event-date {
+  font-size: 20px;
+  color: #555555;
+  font-weight: 600;
+}
+
+.event-data {
+  flex: 0 0 70%;
+}
