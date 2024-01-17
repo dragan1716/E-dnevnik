@@ -8,7 +8,7 @@
   position: fixed;
   right: 0;
   top: 50px;
-  z-index: 99900;
+  z-index: 50;
 }
 
 .container ul {
