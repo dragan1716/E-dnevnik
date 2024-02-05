@@ -3,8 +3,10 @@ import Navbar from "../Bars/Navbar";
 import SideBar from "../Bars/SideBar";
 import FilterBar from "../Bars/FilterBar";
 import Timeline from "./Timeline";
+import { useState } from "react";
 
 const HomePage = () => {
+  //const [] = useState(false);
   return (
     <div className={classes["container"]}>
       <div className={classes["main-wrapper"]}>
