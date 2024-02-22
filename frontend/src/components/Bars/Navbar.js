@@ -11,12 +11,12 @@ import { FaTableList } from "react-icons/fa6";
 import { useState } from "react";
 import { DropdownMenu } from "../Menu/DropdownMenu";
 
-const Navbar = () => {
-  const [activeNavItem, setActiveNavItem] = useState("vremenska-linija");
+const Navbar = ({ activeNavItem, onNavItemClick }) => {
+  //const [activeNavItem, setActiveNavItem] = useState("vremenska-linija");
 
-  const handleNavItemClick = (item) => {
-    setActiveNavItem(item);
-  };
+  // const handleNavItemClick = (item) => {
+  //   setActiveNavItem(item);
+  // };
 
   return (
     <div className={classes["top-bar"]}>
@@ -35,7 +35,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("vremenska-linija")}
+              onClick={() => onNavItemClick("vremenska-linija")}
             >
               <span>Vremenska linija</span>
               <RxCalendar />
@@ -48,7 +48,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("ocjene")}
+              onClick={() => onNavItemClick("ocjene")}
             >
               <span>Ocjene</span>
               <FaGraduationCap />
@@ -62,7 +62,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("aktivnosti")}
+              onClick={() => onNavItemClick("aktivnosti")}
             >
               <span>Aktivnosti</span>
               <FaRegChartBar />
@@ -76,7 +76,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("izostanci")}
+              onClick={() => onNavItemClick("izostanci")}
             >
               <span>Izostanci</span>
               <TfiAlarmClock />
@@ -90,7 +90,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("pohvale-i-mjere")}
+              onClick={() => onNavItemClick("pohvale-i-mjere")}
             >
               <span>Pohvale i mjere</span>
               <SlBadge />
@@ -104,7 +104,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("vladanje")}
+              onClick={() => onNavItemClick("vladanje")}
             >
               <span>Vladanje</span>
               <BsPersonArmsUp />
@@ -118,7 +118,7 @@ const Navbar = () => {
           >
             <Link
               className={classes["link"]}
-              onClick={() => handleNavItemClick("svi-predmeti")}
+              onClick={() => onNavItemClick("svi-predmeti")}
             >
               <span>Svi predmeti</span>
               <FaTableList />
