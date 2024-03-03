@@ -16,9 +16,47 @@ const createGrade = async (gradeBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryGrades = async (filter, options) => {
-  const grades = await Grade.paginate(filter, options);
-  return grades;
+const queryGrades = async () => {
+  try {
+    const grades = await Grade.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $lookup: {
+          from: 'subjects',
+          localField: 'subjectId',
+          foreignField: '_id',
+          as: 'subject',
+        },
+      },
+      {
+        $unwind: '$user',
+      },
+      {
+        $unwind: '$subject',
+      },
+      {
+        $project: {
+          _id: 1,
+          grade: 1,
+          // user: '$user',
+          subject: '$subject.subjectName',
+          createdAt: 1,
+          value: 1,
+          type: 1,
+        },
+      },
+    ]);
+    return grades;
+  } catch (error) {
+    throw new Error('Error fetching grades with details');
+  }
 };
 
 module.exports = {

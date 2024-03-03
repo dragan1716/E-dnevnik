@@ -9,7 +9,6 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageGrades'), validate(gradeValidation.createGrade), gradeController.createGrade)
-  // .get(gradeController.getGrades);
   .get(validate(gradeValidation.getGrades), gradeController.getGrades);
 
 // router

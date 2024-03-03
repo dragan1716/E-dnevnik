@@ -3,24 +3,40 @@ const { toJSON, paginate } = require('./plugins');
 
 const gradeSchema = mongoose.Schema(
   {
-    subjectName: {
-      type: String,
+    subjectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Subject', // Ime povezane kolekcije
       required: true,
-      trim: true,
     },
-    gradeText: {
-      type: String,
+    semesterId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'semester',
       required: true,
-      trim: true,
     },
-    gradeNumber: {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    teacherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'teacher',
+      required: true,
+    },
+    value: {
       type: Number,
+      required: true,
+      trim: true,
+    },
+    type: {
+      type: String,
       required: true,
       trim: true,
     },
   },
   {
     timestamps: true,
+    collection: 'grade',
   }
 );
 

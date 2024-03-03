@@ -2,17 +2,24 @@ const Joi = require('joi');
 
 const createGrade = {
   body: Joi.object().keys({
-    subjectName: Joi.string().required(),
-    gradeText: Joi.string().required(),
-    gradeNumber: Joi.string().required(),
+    subjectId: Joi.string().required(),
+    semesterId: Joi.string().required(),
+    userId: Joi.string().required(),
+    teacherId: Joi.string().required(),
+    value: Joi.number().required(),
+    type: Joi.string().required(),
   }),
 };
 
+//dodati required
 const getGrades = {
   query: Joi.object().keys({
-    subjectName: Joi.string(),
-    gradeText: Joi.string(),
-    gradeNumber: Joi.number(),
+    subjectId: Joi.string(),
+    semesterId: Joi.string(),
+    userId: Joi.string(),
+    teacherId: Joi.string(),
+    value: Joi.number(),
+    type: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number(),
     page: Joi.number(),
