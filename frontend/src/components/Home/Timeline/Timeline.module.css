@@ -1,0 +1,109 @@
+.main-content {
+  /* box-sizing: border-box;
+  overflow: hidden;
+  padding: 0 10px;
+  position: fixed;
+  top: 90px;
+  left: 100px;
+  width: 94%;
+  height: 90vh;
+  overflow: auto; */
+  /* margin-bottom: 20px; */
+}
+
+.events {
+  box-sizing: border-box;
+  margin-bottom: 40px;
+}
+
+.event {
+  width: 70%;
+}
+
+.events .event {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.event-timeline {
+  align-items: flex-end;
+  display: flex;
+  flex: 0 0 190px;
+  flex-direction: column;
+  font-family: sans-serif;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 130px;
+  padding-right: 40px;
+  position: relative;
+  text-align: right;
+}
+
+.event-date {
+  font-size: 20px;
+  color: #555555;
+  font-weight: 600;
+}
+
+.event-data {
+  flex: 0 0 70%;
+}
+
+.loading {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.container-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.line {
+  position: absolute;
+  top: 50%;
+  height: 5px;
+}
+
+.left {
+  left: 0; /* Postavite lijevu granicu na 0 kako biste se osigurali da linija počinje s lijeve strane */
+  width: 50%; /* Postavite širinu na 50% kako biste osigurali da linija zauzima polovicu širine */
+  top: 50%; /* Postavite vrh na 50% kako biste vertikalno centrirali liniju */
+  transform: translateY(-1px);
+  background-image: linear-gradient(to left, black, rgb(244, 238, 238));
+}
+
+.right {
+  right: 0;
+  width: calc(50% - 50px);
+  transform: translateY(-1px);
+  background-image: linear-gradient(to right, black, rgb(244, 238, 238));
+}
+
+@media screen and (max-width: 426px) {
+  .event-date {
+    font-size: 10px;
+  }
+  .event-timeline {
+    display: flex;
+    flex: 0 0 100px;
+  }
+}
