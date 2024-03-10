@@ -5,8 +5,9 @@ const fetchGradesHandler = async (page) => {
     const response = await axios.get(
       `http://localhost:3000/v1/grades?page=${page}` //&limit=${limit}`
     );
+
     console.log(response);
-    console.log(response.data);
+    console.log(response.data.grades);
 
     return response.data;
   } catch (error) {
