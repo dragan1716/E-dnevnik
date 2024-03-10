@@ -1,0 +1,109 @@
+.items {
+  /* border: 1px solid blue; */
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.5);
+  color: #3e3e3e;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  padding: 10px;
+  position: relative;
+  text-decoration: none;
+  width: 70%;
+  margin-top: 20px;
+}
+
+.subject-name {
+  align-items: center;
+  color: #3e3e3e;
+  display: flex;
+  font-size: 16px;
+  justify-content: flex-start;
+  padding: 0 10px 0 0;
+  width: 30%;
+  letter-spacing: 1px;
+}
+
+.items-content {
+  position: relative;
+  width: 70%;
+}
+
+.schoolyear-part {
+  display: flex;
+  font-size: 15px;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.part-items-wrap {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.subject-grade {
+  align-items: center;
+  color: #3e3e3e;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  font-weight: 600;
+  justify-content: center;
+  margin-bottom: 1px;
+  margin-top: 1px;
+  text-align: center;
+  width: 200px;
+}
+.grade-final-wrap {
+  width: 100%;
+}
+
+.part {
+  align-items: center;
+  border-right: 1px solid rgba(62, 62, 62, 0.1);
+  color: #8b8b8b;
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  height: 100%;
+  min-width: 30px;
+  padding-right: 5px;
+  text-align: right;
+}
+
+.part-items {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.part-item {
+  color: #3e3e3e;
+  cursor: default;
+  padding: 0 5px;
+  text-align: center;
+}
+
+.schoolyear-part:last-child:before {
+  background: linear-gradient(
+    90deg,
+    rgba(62, 62, 62, 0.4),
+    rgba(62, 62, 62, 0) 90%,
+    rgba(62, 62, 62, 0)
+  );
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  top: -1px;
+  width: 100%;
+}
