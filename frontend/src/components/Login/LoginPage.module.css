@@ -78,3 +78,10 @@ h2 {
   display: flex;
   justify-content: center;
 }
+
+.spinner {
+  position: absolute;
+  top: 50%; /* Postavljamo na polovinu visine */
+  left: 50%; /* Postavljamo na polovinu širine */
+  transform: translate(-50%, -50%); /* Centriramo po sredini */
+}

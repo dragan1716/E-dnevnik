@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import LoginCard from "./LoginCard";
 import classes from "./LoginPage.module.css";
+import { DefaultSpinner } from "../Spinners/LoadingSpinner";
+import { CustomSpinner } from "../Spinners/CustomSpinner";
 
 const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Nakon 2 sekunde postavljamo isLoading na false
+    }, 500);
 
+    return () => clearTimeout(timer); // Očistimo timer prilikom unmounta komponente
+  }, []);
   return (
-    <>
-      <div>
+    <div>
+      {isLoading ? (
+        <div className={classes["spinner"]}>
+          <CustomSpinner />
+        </div>
+      ) : (
         <div className={classes["container"]}>
           <div className={classes["login-wrap"]}>
             <div className={classes["login-wrap-left"]}>
@@ -20,8 +34,8 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
