@@ -57,7 +57,7 @@ const LoginCard = () => {
         return;
       }
 
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.log("Login error: ", error);
     }
