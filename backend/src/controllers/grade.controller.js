@@ -9,14 +9,12 @@ const createGrade = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(grade);
 });
 
-const getGrades = async (req, res) => {
-  try {
-    const grades = await gradeService.queryGrades();
-    res.json(grades);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+const getGrades = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['name', 'role']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await gradeService.queryGrades(filter, options);
+  res.send(result);
+});
 
 module.exports = {
   createGrade,
