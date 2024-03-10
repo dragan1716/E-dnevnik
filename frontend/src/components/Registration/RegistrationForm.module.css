@@ -1,17 +1,38 @@
+.container {
+  background-color: #f0f2f5;
+}
 .wrapper {
   display: flex;
   /* border: 1px solid black; */
   justify-content: space-between;
-  /* text-align: center; */
 }
 
 .input {
   /* border: 1px solid red; */
   width: 45%;
+  /* background-color: white; */
+}
+.input input {
+  background-color: white;
 }
 
 .error-message {
   /* border: 1px solid blue; */
   width: 50%;
   padding-top: 23px;
+}
+.left {
+  /* border: 1px solid red; */
+  margin-right: 70px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.left h4 {
+  font-size: 100px;
+}
+
+.right {
 }
