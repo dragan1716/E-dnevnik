@@ -40,15 +40,29 @@
   font-size: 14px;
 }
 
-/* span::after {
-  border-color: transparent #f5f5f5;
-  border-style: solid;
-  border-width: 13px 13px 13px 0;
-  bottom: 20px;
-  content: "";
-  height: 0;
-  position: absolute;
-  right: -4px;
-  width: 0;
-  z-index: 99900;
-} */
+@media screen and (max-width: 1440px) {
+  .container {
+    height: 160vh;
+  }
+}
+
+@media screen and (max-width: 1496px) {
+  .container {
+    height: 160vh;
+  }
+}
+
+@media screen and (max-width: 1536px) {
+  .container {
+    height: 140vh;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .container {
+    width: 77px;
+  }
+  .wrapper .logo {
+    font-size: 30px;
+  }
+}
