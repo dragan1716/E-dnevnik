@@ -1,6 +1,6 @@
 import classes from "./Navbar.module.css";
 import { FaBook } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { RxCalendar } from "react-icons/rx";
 import { FaGraduationCap } from "react-icons/fa6";
 import { FaRegChartBar } from "react-icons/fa";
@@ -10,16 +10,34 @@ import { BsPersonArmsUp } from "react-icons/bs";
 import { FaTableList } from "react-icons/fa6";
 import { useState } from "react";
 import { DropdownMenu } from "../Menu/DropdownMenu";
+import { VscChromeClose } from "react-icons/vsc";
+import { IoMenu } from "react-icons/io5";
 
-const Navbar = ({ activeNavItem, onNavItemClick }) => {
-  //const [activeNavItem, setActiveNavItem] = useState("vremenska-linija");
+const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  const [navbarVisible, setNavbarVisible] = useState(true);
 
-  // const handleNavItemClick = (item) => {
-  //   setActiveNavItem(item);
-  // };
+  const navLinksStyles = ({ isActive }) => {
+    return {
+      backgroundColor: isActive ? "#7b280c" : "",
+    };
+  };
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+    console.log(showMenu);
+  };
+
+  const closeMenu = () => {
+    setShowMenu(false);
+  };
 
   return (
-    <div className={classes["top-bar"]}>
+    <div
+      className={`${classes["top-bar"]} ${
+        navbarVisible ? "" : classes["hidden"]
+      }`}
+    >
       <div className={classes["logo"]}>
         <div className={classes["just-logo"]}>
           <FaBook />
@@ -27,104 +45,92 @@ const Navbar = ({ activeNavItem, onNavItemClick }) => {
         <span>moj e-Dnevnik</span>
       </div>
       <div className={classes["top-navigation"]}>
-        <ul className={classes["top-navigation-list"]}>
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "vremenska-linija" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+        <button
+          className={classes["menu-button"]}
+          onClick={() => {
+            toggleMenu();
+          }}
+        >
+          {showMenu ? <VscChromeClose /> : <IoMenu />}
+        </button>
+        <ul
+          className={`${classes["top-navigation-list"]} ${
+            showMenu ? classes["show"] : ""
+          }`}
+        >
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="/"
               className={classes["link"]}
-              onClick={() => onNavItemClick("vremenska-linija")}
+              style={navLinksStyles}
+              onClick={() => {
+                closeMenu();
+              }}
             >
               <span>Vremenska linija</span>
               <RxCalendar />
-            </Link>
+            </NavLink>
           </li>
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "ocjene" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="/grades"
               className={classes["link"]}
-              onClick={() => onNavItemClick("ocjene")}
+              style={navLinksStyles}
             >
               <span>Ocjene</span>
               <FaGraduationCap />
-            </Link>
+            </NavLink>
           </li>
-
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "aktivnosti" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="/activities"
               className={classes["link"]}
-              onClick={() => onNavItemClick("aktivnosti")}
+              style={navLinksStyles}
             >
               <span>Aktivnosti</span>
               <FaRegChartBar />
-            </Link>
+            </NavLink>
           </li>
-
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "izostanci" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="izostanci"
               className={classes["link"]}
-              onClick={() => onNavItemClick("izostanci")}
+              style={navLinksStyles}
             >
               <span>Izostanci</span>
               <TfiAlarmClock />
-            </Link>
+            </NavLink>
           </li>
-
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "pohvale-i-mjere" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="/pohvale"
               className={classes["link"]}
-              onClick={() => onNavItemClick("pohvale-i-mjere")}
+              style={navLinksStyles}
             >
               <span>Pohvale i mjere</span>
               <SlBadge />
-            </Link>
+            </NavLink>
           </li>
-
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "vladanje" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="/vladanje"
               className={classes["link"]}
-              onClick={() => onNavItemClick("vladanje")}
+              style={navLinksStyles}
             >
               <span>Vladanje</span>
               <BsPersonArmsUp />
-            </Link>
+            </NavLink>
           </li>
-
-          <li
-            className={`${classes["top-nav-item"]} ${
-              activeNavItem === "svi-predmeti" ? classes["active"] : ""
-            }`}
-          >
-            <Link
+          <li className={`${classes["top-nav-item"]}`}>
+            <NavLink
+              to="/predmeti"
               className={classes["link"]}
-              onClick={() => onNavItemClick("svi-predmeti")}
+              style={navLinksStyles}
             >
               <span>Svi predmeti</span>
               <FaTableList />
-            </Link>
+            </NavLink>
           </li>
-
           <li>
             <DropdownMenu className={classes["dropdown"]}></DropdownMenu>
           </li>

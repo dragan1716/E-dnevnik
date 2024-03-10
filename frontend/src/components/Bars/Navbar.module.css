@@ -43,7 +43,8 @@ span {
 .top-nav-item {
   display: flex;
   align-items: center;
-  padding: 10px 12px 10px 8px;
+  /* padding: 10px 12px 10px 8px; */
+  background-color: #bf3100;
 }
 
 .top-nav-item:hover {
@@ -51,9 +52,11 @@ span {
 }
 
 .link {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 12px 0px 8px;
 }
 
 span {
@@ -62,4 +65,41 @@ span {
 
 .active {
   background-color: #7b280c;
+}
+
+.show {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  left: 100px;
+  right: 100px;
+  background-color: #bf3100;
+  left: 0;
+  width: 100%;
+}
+
+.menu-button {
+  display: none;
+  font-size: 40px;
+}
+
+@media screen and (max-width: 1024px) {
+  span {
+    font-size: 14px;
+    margin: 5px 5px 5px 5px;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .menu-button {
+    display: block;
+  }
+  .top-navigation-list {
+    display: none;
+    left: 100px;
+  }
+  .show {
+    display: block;
+  }
 }
