@@ -1,29 +1,47 @@
-import classes from "./HomePage.module.css";
-import Navbar from "../Bars/Navbar";
-import SideBar from "../Bars/SideBar";
-import FilterBar from "../Bars/FilterBar";
-import Timeline from "./Timeline";
-import { useState } from "react";
+import Timeline from "./Timeline/Timeline";
+import { useEffect, useState } from "react";
+import { CustomSpinner } from "../Spinners/CustomSpinner";
+import Grades from "./Grades/Grades";
+import GradeDetails from "./Grades/GradeDetails";
+import Activities from "./Activities/Activities";
+import Layout from "../layout/Layout";
 
 const HomePage = () => {
-  //const [] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [selectedSubjectId, setSelectedSubjectId] = useState(null);
+  const [activeNavItem, setActiveNavItem] = useState("vremenska-linija");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleSubjectClick = (subjectId) => {
+    setSelectedSubjectId(subjectId);
+  };
+
+  const renderComponent = () => {
+    switch (activeNavItem) {
+      case "vremenska-linija":
+        return <Timeline />;
+      case "ocjene":
+        // return <Grades onSubjectClick={handleSubjectClick} />;
+        return <Grades />;
+
+      case "grade-details":
+        return <GradeDetails subjectId={selectedSubjectId} />;
+      case "aktivnosti":
+        return <Activities />;
+      default:
+        return <Timeline />;
+    }
+  };
+
   return (
-    <div className={classes["container"]}>
-      <div className={classes["main-wrapper"]}>
-        <div className={classes["nav-bar"]}>
-          <Navbar />
-        </div>
-        <div className={classes["side-bar"]}>
-          <SideBar />
-        </div>
-        <div className={classes["filter-bar"]}>
-          <FilterBar />
-        </div>
-        <div>
-          <Timeline></Timeline>
-        </div>
-      </div>
-    </div>
+    <Layout>{loading ? <CustomSpinner /> : <>{renderComponent()}</>}</Layout>
   );
 };
 
