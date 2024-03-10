@@ -16,44 +16,75 @@ const createGrade = async (gradeBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryGrades = async () => {
+
+const queryGrades = async (filter, options) => {
   try {
-    const grades = await Grade.aggregate([
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'userId',
-          foreignField: '_id',
-          as: 'user',
-        },
+    const { page = 1, limit = 10, sortBy } = options;
+
+    const pipeline = [];
+
+    // Match stage to apply filter
+    pipeline.push({ $match: filter });
+
+    // Lookup stages
+    pipeline.push({
+      $lookup: {
+        from: 'users',
+        localField: 'userId',
+        foreignField: '_id',
+        as: 'user',
       },
-      {
-        $lookup: {
-          from: 'subjects',
-          localField: 'subjectId',
-          foreignField: '_id',
-          as: 'subject',
-        },
+    });
+    pipeline.push({
+      $lookup: {
+        from: 'subjects',
+        localField: 'subjectId',
+        foreignField: '_id',
+        as: 'subject',
       },
-      {
-        $unwind: '$user',
+    });
+
+    // Unwind stages
+    pipeline.push({ $unwind: '$user' });
+    pipeline.push({ $unwind: '$subject' });
+
+    // Projection stage
+    pipeline.push({
+      $project: {
+        _id: 1,
+        grade: 1,
+        subject: '$subject.subjectName',
+        createdAt: 1,
+        value: 1,
+        type: 1,
       },
-      {
-        $unwind: '$subject',
-      },
-      {
-        $project: {
-          _id: 1,
-          grade: 1,
-          // user: '$user',
-          subject: '$subject.subjectName',
-          createdAt: 1,
-          value: 1,
-          type: 1,
-        },
-      },
-    ]);
-    return grades;
+    });
+
+    // Sort stage to apply sorting
+    if (sortBy) {
+      const [sortField, sortOrder] = sortBy.split(':');
+      pipeline.push({ $sort: { [sortField]: sortOrder === 'desc' ? -1 : 1 } });
+    }
+
+    const totalCount = await Grade.countDocuments(filter);
+
+    // Pagination stages
+    const skip = (page - 1) * limit;
+    pipeline.push({ $skip: skip });
+    pipeline.push({ $limit: limit });
+
+    // Execute aggregation pipeline
+    const result = await Grade.aggregate(pipeline);
+
+    const totalPages = Math.ceil(totalCount / limit);
+
+    return {
+      grades: result,
+      page: page,
+      limit: limit,
+      totalPages: totalPages,
+      totalResults: totalCount,
+    };
   } catch (error) {
     throw new Error('Error fetching grades with details');
   }
