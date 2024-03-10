@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const gradesRoute = require('./grade.route');
+const subjectRoute = require('./subject.route');
 
 const router = express.Router();
 
@@ -19,6 +20,10 @@ const defaultRoutes = [
   {
     path: '/grades',
     route: gradesRoute,
+  },
+  {
+    path: '/subjects',
+    route: subjectRoute,
   },
 ];
 
