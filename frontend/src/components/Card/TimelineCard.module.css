@@ -45,3 +45,21 @@
 .description {
   font-size: 18px;
 }
+
+@media screen and (max-width: 1024px) {
+  .grade {
+    font-size: 50px;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .container {
+    margin-left: 0;
+  }
+  .grade {
+    font-size: 35px;
+  }
+  .right .subject {
+    font-size: 17px;
+  }
+}
