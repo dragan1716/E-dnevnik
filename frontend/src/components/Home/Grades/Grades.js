@@ -1,33 +1,18 @@
-//import fetchGradesHandler from "../../../libs/api/GradeApi";
 import SubjectCard from "../../Card/SubjectCard";
 import classes from "./Grades.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Layout from "../../layout/Layout";
 
+//{onSubjectClick}
 const Grades = () => {
   const [subjectData, setSubjectData] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  //  const fetchData = async () => {
-  //   try {
-  //     const data = await fetchGradesHandler(pageNumber);
-  //     setSubjectData((prevSubjectData) => [...prevSubjectData, ...data]);
-  //     setIsLoading(true);
-
-  //     setTotalPages(data.totalPages);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
-  const fetchGradesHandler = async (page, semesterId) => {
+  const fetchGradesHandler = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/v1/subjects?page=${page}`
-      );
+      const response = await axios.get(`http://localhost:3000/v1/subjects`);
       setSubjectData((prevSubjectData) => [
         ...prevSubjectData,
         ...response.data,
@@ -43,45 +28,24 @@ const Grades = () => {
   };
 
   useEffect(() => {
-    //fetchData(pageNumber);
-    fetchGradesHandler(pageNumber);
-  }, [pageNumber]);
-
-  const loadMore = () => {
-    setPageNumber((prevPage) => prevPage + 1);
-  };
-
-  const pageEnd = useRef();
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting && pageNumber < totalPages) {
-        loadMore();
-      }
-    },
-    { threshold: 1 }
-  );
-
-  useEffect(() => {
-    observer.observe(pageEnd.current);
-
-    return () => observer.disconnect();
-  }, [pageEnd, pageNumber, totalPages]);
+    fetchGradesHandler();
+  }, []);
 
   return (
-    <div className={classes.container}>
-      <div className={classes["items-wrap"]}>
-        {subjectData.map((subject, index) => (
-          <div className={classes["subjects-wrap"]} key={index}>
-            <Link to={`/subject/${subject.id}`}>
-              <SubjectCard subject={subject} onFetch={fetchGradesHandler} />
-            </Link>
-          </div>
-        ))}
-        <div className={classes["stats"]}></div>
+    <Layout>
+      <div className={classes.container}>
+        <div className={classes["items-wrap"]}>
+          {subjectData.map((subject) => (
+            <div className={classes["subjects-wrap"]} key={subject._id}>
+              <Link to={`/subject/${subject._id}`}>
+                <SubjectCard subject={subject} onFetch={fetchGradesHandler} />
+              </Link>
+            </div>
+          ))}
+          <div className={classes["stats"]}></div>
+        </div>
       </div>
-      <div ref={pageEnd}></div>
-    </div>
+    </Layout>
   );
 };
 
