@@ -81,16 +81,28 @@ const assignGradesToSemesters = async (grades, semesters) => {
       //   newGrade,
       // });
       // }
-      semesters.forEach((semester, index) => {
-        const fromDate = new Date(semester.fromDate);
-        const toDate = new Date(semester.toDate);
-        const gradeDate = new Date(createdAt);
+      const semesterType = semesters.find((sem) => sem._id.equals(grade.semesterId)).semesterType;
 
-        if (gradeDate >= fromDate && gradeDate <= toDate) {
-          semesterGrades[index].grades.push(newGrade);
+      semesters.forEach((semester, index) => {
+        // const fromDate = new Date(semester.fromDate);
+        // const toDate = new Date(semester.toDate);
+        // const gradeDate = new Date(createdAt);
+
+        // if (gradeDate >= fromDate && gradeDate <= toDate) {
+        //   semesterGrades[index].grades.push(newGrade);
+        // }
+        if (semesterType === semester.semesterType) {
+          const fromDate = new Date(semester.fromDate);
+          const toDate = new Date(semester.toDate);
+          const gradeDate = new Date(createdAt);
+
+          if (gradeDate >= fromDate && gradeDate <= toDate) {
+            semesterGrades[index].grades.push(newGrade); // Push grade to the corresponding semester
+          }
         }
       });
     });
+
     console.log('SEMESTER GR: ', semesterGrades);
     return semesterGrades;
   } catch (error) {
