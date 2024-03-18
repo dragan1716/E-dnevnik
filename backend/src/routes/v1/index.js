@@ -5,6 +5,7 @@ const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const gradesRoute = require('./grade.route');
 const subjectRoute = require('./subject.route');
+const semesterRoute = require('./semester.route');
 
 const router = express.Router();
 
@@ -24,6 +25,14 @@ const defaultRoutes = [
   {
     path: '/subjects',
     route: subjectRoute,
+  },
+  {
+    path: '/subjects/:subjectId',
+    route: subjectRoute,
+  },
+  {
+    path: '/semesters',
+    route: semesterRoute,
   },
 ];
 
@@ -45,5 +54,21 @@ if (config.env === 'development') {
     router.use(route.path, route.route);
   });
 }
+
+router.use((req, res, next) => {
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
+
+// Middleware funkcija za obradu grešaka
+router.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({
+    error: {
+      message: err.message,
+    },
+  });
+});
 
 module.exports = router;
