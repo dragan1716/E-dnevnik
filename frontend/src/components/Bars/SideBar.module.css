@@ -19,7 +19,7 @@
 }
 
 .wrapper {
-  height: 13%;
+  height: 130px;
   background-color: #ec9f05;
   display: flex;
   flex-direction: column;
@@ -43,18 +43,21 @@
 @media screen and (max-width: 1440px) {
   .container {
     height: 160vh;
+    height: 100vh;
   }
 }
 
 @media screen and (max-width: 1496px) {
   .container {
     height: 160vh;
+    height: 100vh;
   }
 }
 
 @media screen and (max-width: 1536px) {
   .container {
     height: 140vh;
+    height: 100vh;
   }
 }
 
