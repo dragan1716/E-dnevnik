@@ -10,6 +10,8 @@ router
   .route('/')
   .post(auth('manageSubjects'), validate(subjectValidation.createSubject), subjectController.createSubject)
   // .get(validate(subjectValidation.getSubjects), subjectController.getSubjects);
-  .get(subjectController.getSubjects);
+  .get(validate(subjectValidation.getSubjects), subjectController.getSubjects);
+
+router.route('/:subjectId').get(validate(subjectValidation.getSubjectById), subjectController.getSubjectById);
 
 module.exports = router;
