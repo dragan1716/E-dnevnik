@@ -21,7 +21,6 @@ export function DropdownMenu() {
       </MenuHandler>
       <MenuList>
         <MenuItem>Promjena lozinke</MenuItem>
-        <MenuItem>Menu Item 2</MenuItem>
         <MenuItem>Odjava</MenuItem>
       </MenuList>
     </Menu>
