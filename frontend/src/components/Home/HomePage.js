@@ -14,7 +14,7 @@ const HomePage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -28,9 +28,7 @@ const HomePage = () => {
       case "vremenska-linija":
         return <Timeline />;
       case "ocjene":
-        // return <Grades onSubjectClick={handleSubjectClick} />;
         return <Grades />;
-
       case "grade-details":
         return <GradeDetails subjectId={selectedSubjectId} />;
       case "aktivnosti":
