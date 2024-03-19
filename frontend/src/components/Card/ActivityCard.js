@@ -1,16 +1,35 @@
 import classes from "./ActivityCard.module.css";
+import { FaRegSmile } from "react-icons/fa";
+import { FaRegFaceMeh } from "react-icons/fa6";
+import { FaRegFaceFrown } from "react-icons/fa6";
 
 const ActivityCard = ({ subject }) => {
-  const firstSemesterGrades = [];
-  const secondSemesterGrades = [];
-
-  subject.grades.forEach((grade, index) => {
-    if (subject.semesterId[index] === subject.semesterId[0]) {
-      firstSemesterGrades.push(grade);
-    } else {
-      secondSemesterGrades.push(grade);
+  const renderIcon = (value) => {
+    switch (value) {
+      case "uspjesan":
+        return <FaRegSmile className={classes["face-smile"]} />;
+      case "zadovoljava":
+        return <FaRegFaceMeh className={classes["face-meh"]} />;
+      case "ne_zadovoljava":
+        return <FaRegFaceFrown className={classes["face-frown"]} />;
+      default:
+        return null;
     }
-  });
+  };
+
+  const firstSemesterGrades = subject.semesters
+    .find((semester) => semester.semesterType === "winter")
+    .grades.filter(
+      (grade) =>
+        grade.type !== "usmeni_odgovor" && grade.type !== "kontrolni_zadatak"
+    );
+
+  const secondSemesterGrades = subject.semesters
+    .find((semester) => semester.semesterType === "summer")
+    .grades.filter(
+      (grade) =>
+        grade.type !== "usmeni_odgovor" && grade.type !== "kontrolni_zadatak"
+    );
 
   return (
     <div className={classes.items} key={subject._id}>
@@ -22,7 +41,7 @@ const ActivityCard = ({ subject }) => {
             <div className={classes["part-items"]}>
               {firstSemesterGrades.map((grade, index) => (
                 <div key={index} className={classes["part-item"]}>
-                  {grade}
+                  {renderIcon(grade.value)}
                 </div>
               ))}
             </div>
@@ -34,7 +53,7 @@ const ActivityCard = ({ subject }) => {
             <div className={classes["part-items"]}>
               {secondSemesterGrades.map((grade, index) => (
                 <div key={index} className={classes["part-item"]}>
-                  {grade}
+                  {renderIcon(grade.value)}
                 </div>
               ))}
             </div>

@@ -90,3 +90,18 @@
   top: -1px;
   width: 100%;
 }
+
+.face-smile {
+  color: #28a79a;
+  font-size: 25px;
+}
+
+.face-meh {
+  color: #ec9f05;
+  font-size: 25px;
+}
+
+.face-frown {
+  color: #a31422;
+  font-size: 25px;
+}
