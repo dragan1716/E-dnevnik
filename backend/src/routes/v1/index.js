@@ -34,6 +34,14 @@ const defaultRoutes = [
     path: '/semesters',
     route: semesterRoute,
   },
+  {
+    path: '/activities',
+    route: semesterRoute,
+  },
+  {
+    path: '/activities/:subjectId',
+    route: semesterRoute,
+  },
 ];
 
 const devRoutes = [
