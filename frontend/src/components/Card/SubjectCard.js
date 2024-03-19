@@ -1,27 +1,24 @@
 import classes from "./SubjectCard.module.css";
 
 const SubjectCard = ({ subject }) => {
-  const firstSemesterGrades = [];
-  const secondSemesterGrades = [];
-
-  subject.grades.forEach((grade, index) => {
-    if (subject.semesterId[index] === subject.semesterId[0]) {
-      firstSemesterGrades.push(grade);
-    } else {
-      secondSemesterGrades.push(grade);
-    }
-  });
-
   const averageGradeNumber = (grades) => {
     const empty = "/";
     if (grades.length === 0) {
       return empty.toString();
     } else {
-      const average =
-        grades.reduce((a, b) => a + parseInt(b), 0) / grades.length;
+      const total = grades.reduce((a, b) => a + parseInt(b.value), 0);
+      const average = total / grades.length;
       return average.toFixed(2);
     }
   };
+
+  const firstSemesterGrades = subject.semesters
+    .find((semester) => semester.semesterType === "winter")
+    .grades.filter((grade) => grade.type !== "activity");
+
+  const secondSemesterGrades = subject.semesters
+    .find((semester) => semester.semesterType === "summer")
+    .grades.filter((grade) => grade.type !== "activity");
 
   return (
     <div className={classes.container}>
@@ -35,7 +32,7 @@ const SubjectCard = ({ subject }) => {
                 <div className={classes["part-items"]}>
                   {firstSemesterGrades.map((grade, index) => (
                     <div key={index} className={classes["part-item"]}>
-                      {grade}
+                      {grade.value}
                     </div>
                   ))}
                 </div>
@@ -55,7 +52,7 @@ const SubjectCard = ({ subject }) => {
                 <div className={classes["part-items"]}>
                   {secondSemesterGrades.map((grade, index) => (
                     <div key={index} className={classes["part-item"]}>
-                      {grade}
+                      {grade.value}
                     </div>
                   ))}
                 </div>
