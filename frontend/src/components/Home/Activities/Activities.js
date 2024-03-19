@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import classes from "./Activities.module.css";
 import axios from "axios";
 import ActivityCard from "../../Card/ActivityCard";
@@ -6,18 +6,19 @@ import { FaRegSmile } from "react-icons/fa";
 import { FaRegFaceMeh } from "react-icons/fa6";
 import { FaRegFaceFrown } from "react-icons/fa6";
 import Layout from "../../layout/Layout";
+import { Link } from "react-router-dom";
+import { CustomSpinner } from "../../Spinners/CustomSpinner";
 
 const Activities = () => {
   const [subjectData, setSubjectData] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [successfulCount, setSuccessfulCount] = useState(0);
+  const [satisfactoryCount, setSatisfactoryCount] = useState(0);
+  const [unatisfactoryCount, setUnsatisfactoryCount] = useState(0);
 
-  const fetchGradesHandler = async (page) => {
+  const fetchGradesHandler = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/v1/subjects?page=${page}`
-      );
+      const response = await axios.get(`http://localhost:3000/v1/subjects`);
       setSubjectData((prevSubjectData) => [
         ...prevSubjectData,
         ...response.data,
@@ -31,41 +32,67 @@ const Activities = () => {
       console.log(error.message);
     }
   };
-
   useEffect(() => {
-    fetchGradesHandler(pageNumber);
-  }, [pageNumber]);
+    fetchGradesHandler();
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
 
-  const loadMore = () => {
-    setPageNumber((prevPage) => prevPage + 1);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const countGrades = () => {
+    let successful = 0;
+    let satisfactory = 0;
+    let unsatisfactory = 0;
+
+    subjectData.forEach((subject) => {
+      subject.semesters.forEach((semester) => {
+        semester.grades.forEach((grade) => {
+          switch (grade.value) {
+            case "uspjesan":
+              successful++;
+              break;
+            case "zadovoljava":
+              satisfactory++;
+              break;
+            case "ne_zadovoljava":
+              unsatisfactory++;
+              break;
+            default:
+              break;
+          }
+        });
+      });
+    });
+
+    setSuccessfulCount(successful);
+    setSatisfactoryCount(satisfactory);
+    setUnsatisfactoryCount(unsatisfactory);
   };
 
-  const pageEnd = useRef();
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting && pageNumber < totalPages) {
-        loadMore();
-      }
-    },
-    { threshold: 1 }
-  );
-
   useEffect(() => {
-    observer.observe(pageEnd.current);
-
-    return () => observer.disconnect();
-  }, [pageEnd, pageNumber, totalPages]);
+    countGrades();
+  }, [subjectData]);
 
   return (
     <Layout>
       <div className={classes["items-wrap"]}>
         <div className={classes["subjects-wrap"]}>
-          {subjectData.map((subject, index) => (
-            <div key={index}>
-              <ActivityCard subject={subject} onFetch={fetchGradesHandler} />
-            </div>
-          ))}
+          {isLoading ? (
+            <CustomSpinner />
+          ) : (
+            subjectData.map((subject, index) => (
+              <div key={index}>
+                <Link to={`/activities/${subject.subjectId}`}>
+                  <ActivityCard
+                    subject={subject}
+                    onFetch={fetchGradesHandler}
+                  />
+                </Link>
+              </div>
+            ))
+          )}
         </div>
         <div className={classes["stats"]}>
           <div className={`${classes["stats-item"]} ${classes.good}`}>
@@ -74,9 +101,8 @@ const Activities = () => {
             </div>
             <div className={classes["stats-description"]}>
               <div className={classes["stats-description-top"]}>
-                uspjesan(6)
+                uspješan({successfulCount})
               </div>
-              <div className={classes["stats-percentage"]}>(100%)</div>
             </div>
           </div>
 
@@ -86,9 +112,8 @@ const Activities = () => {
             </div>
             <div className={classes["stats-description"]}>
               <div className={classes["stats-description-top"]}>
-                zadovoljava(0)
+                zadovoljava({satisfactoryCount})
               </div>
-              <div className={classes["stats-percentage"]}>(0%)</div>
             </div>
           </div>
 
@@ -98,14 +123,12 @@ const Activities = () => {
             </div>
             <div className={classes["stats-description"]}>
               <div className={classes["stats-description-top"]}>
-                zadovoljava(0)
+                ne zadovoljava({unatisfactoryCount})
               </div>
-              <div className={classes["stats-percentage"]}>(0%)</div>
             </div>
           </div>
         </div>
       </div>
-      <div ref={pageEnd}></div>
     </Layout>
   );
 };
