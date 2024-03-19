@@ -22,6 +22,7 @@ const queryGrades = async (filter, options) => {
     const { page = 1, limit = 10, sortBy } = options;
 
     const pipeline = [];
+    pipeline.push({ $sort: { createdAt: -1 } });
 
     // Match stage to apply filter
     pipeline.push({ $match: filter });
@@ -57,18 +58,12 @@ const queryGrades = async (filter, options) => {
         createdAt: 1,
         value: 1,
         type: 1,
+        description: 1,
       },
     });
 
-    // Sort stage to apply sorting
-    if (sortBy) {
-      const [sortField, sortOrder] = sortBy.split(':');
-      pipeline.push({ $sort: { [sortField]: sortOrder === 'desc' ? -1 : 1 } });
-    }
-
     const totalCount = await Grade.countDocuments(filter);
 
-    // Pagination stages
     const skip = (page - 1) * limit;
     pipeline.push({ $skip: skip });
     pipeline.push({ $limit: limit });
