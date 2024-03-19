@@ -10,7 +10,6 @@ const formatDate = (dateString) => {
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Dodajemo 1 jer mjeseci počinju od 0
   const year = date.getFullYear();
 
-  // Formatiramo datum u format dan. mjesec. godina.
   return `${day}. ${month}. ${year}`;
 };
 
@@ -23,12 +22,7 @@ const Timeline = () => {
   const fetchData = async () => {
     try {
       const data = await fetchGradesHandler(page);
-      console.log("Fetched data: " + data);
-      //  setGrades((prevGrades) => [...prevGrades, ...data.grades]);
-      const sortedData = data.grades.sort((a, b) => {
-        return new Date(a.createdAt) - new Date(b.createdAt);
-      });
-      setGrades((prevGrades) => [...prevGrades, ...sortedData]);
+      setGrades((prevGrades) => [...prevGrades, ...data.grades]);
       setTotalPages(data.totalPages);
       setIsLoading(true);
     } catch (error) {
@@ -40,12 +34,7 @@ const Timeline = () => {
     fetchData(page);
   }, [page]);
 
-  // const fetchMoreData = () => {
-  //   fetchGradesHandler();
-  // };
-
   const loadMore = () => {
-    // setPage((prevPage) => prevPage + 1);
     setTimeout(() => {
       if (page < totalPages) {
         setPage((prevPage) => prevPage + 1);
@@ -69,7 +58,6 @@ const Timeline = () => {
     console.log("Page: ", page);
     observer.observe(pageEnd.current);
 
-    console.log("Total pages: " + totalPages);
     return () => observer.disconnect();
   }, [pageEnd, page, totalPages]);
 
