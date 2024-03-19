@@ -6,7 +6,6 @@ const createSubject = async (subjectBody) => {
 
   return subject;
 };
-//dodati id za ocjenu, napraviti niz semestara
 
 /**
  * Query for subject
@@ -22,38 +21,7 @@ const createSubject = async (subjectBody) => {
  */
 
 const assignGradesToSemesters = async (grades, semesters) => {
-  // const semesterGrades = semesters.map((semester) => ({
-  //   semesterType: semester.semesterType,
-  //   grades: [],
-  // }));
-
-  // grades.forEach((grade) => {
-  //   const { value, type, createdAt } = grade;
-  //   const newGrade = { value, type, createdAt };
-
-  //   semesters.forEach((semester) => {
-  //     const fromDate = new Date(semester.fromDate);
-  //     const toDate = new Date(semester.toDate);
-  //     const gradeDate = new Date(createdAt);
-
-  //     if (gradeDate >= fromDate && gradeDate <= toDate) {
-
-  //       if (semester.semesterType === 'winter') {
-  //         semesterGrades.grades.push(newGrade);
-  //       }
-  //       else if (semester.semesterType === 'summer') {
-  //         semesterGrades.grades.push(newGrade);
-  //       }
-  //     }
-  //   });
-  // });
-
-  // return semesterGrades;
   try {
-    // const semesterGrades = semesters.map((semester) => ({
-    //   semesterType: semester.semesterType,
-    //   grades: [],
-    // }));
     const semesterGrades = semesters.map((semester) => ({
       semesterType: semester.semesterType,
       grades: [],
@@ -61,43 +29,19 @@ const assignGradesToSemesters = async (grades, semesters) => {
     console.log('SEMESTER GRADES: ', semesterGrades);
 
     grades.forEach((grade) => {
-      const { _id, value, type, createdAt } = grade;
-      const newGrade = { _id, value, type, createdAt };
+      const { _id, value, type, createdAt, description } = grade;
+      const newGrade = { _id, value, type, createdAt, description };
 
-      ////////////////////////////////////////////
-      // const gradeDate = new Date(grade.createdAt);
-
-      // semesterGrades.forEach((semester) => {
-      //   const fromDate = new Date(semester.fromDate);
-      //   const toDate = new Date(semester.toDate);
-      //   const gradeDate = new Date(createdAt);
-
-      // // if (gradeDate >= fromDate && gradeDate <= toDate) {
-      // semester.grades.push({
-      //   // _id: grade._id,
-      //   // value: grade.value,
-      //   // type: grade.type,
-      //   // createdAt: grade.createdAt,
-      //   newGrade,
-      // });
-      // }
       const semesterType = semesters.find((sem) => sem._id.equals(grade.semesterId)).semesterType;
 
       semesters.forEach((semester, index) => {
-        // const fromDate = new Date(semester.fromDate);
-        // const toDate = new Date(semester.toDate);
-        // const gradeDate = new Date(createdAt);
-
-        // if (gradeDate >= fromDate && gradeDate <= toDate) {
-        //   semesterGrades[index].grades.push(newGrade);
-        // }
         if (semesterType === semester.semesterType) {
           const fromDate = new Date(semester.fromDate);
           const toDate = new Date(semester.toDate);
           const gradeDate = new Date(createdAt);
 
           if (gradeDate >= fromDate && gradeDate <= toDate) {
-            semesterGrades[index].grades.push(newGrade); // Push grade to the corresponding semester
+            semesterGrades[index].grades.push(newGrade);
           }
         }
       });
@@ -122,54 +66,7 @@ const querySubjects = async () => {
           as: 'grades',
         },
       },
-      // {
-      //   $project: {
-      //     subjectName: 1,
-      //     semesterId: '$grades.semesterId',
-      //     grades: '$grades.value',
-      //     type: '$grades.type',
-      //     createdAt: '$grades.createdAt',
-      //   },
-      // },
-      // {
-      //   $project: {
-      //     subjectName: 1,
-      //     grades: {
-      //       $map: {
-      //         input: semesters,
-      //         as: 'semester',
-      //         in: {
-      //           semesterNumber: '$$semester.semesterNumber',
-      //           grades: {
-      //             $filter: {
-      //               input: '$grades',
-      //               as: 'grade',
-      //               cond: {
-      //                 $and: [
-      //                   { $eq: ['$$grade.semesterId', '$$semester._id'] },
-      //                   { $gte: ['$$grade.createdAt', '$$semester.fromDate'] },
-      //                   { $lte: ['$$grade.createdAt', '$$semester.toDate'] },
-      //                 ],
-      //               },
-      //             },
-      //           },
-      //         },
-      //       },
-      //     },
-      //   },
-      // },
     ]);
-
-    // const formattedSubjects = subjects.map((subject) => {
-    //   const gradesBySemester = assignGradesToSemesters(subject.grades, semesters);
-    //   console.log('GRADES BY SEMESTER', gradesBySemester);
-
-    //   return {
-    //     subjectName: subject.subjectName,
-    //     subjectId: subject._id,
-    //     semesters: gradesBySemester,
-    //   };
-    // });
     const formattedSubjects = await Promise.all(
       subjects.map(async (subject) => {
         const gradesBySemester = await assignGradesToSemesters(subject.grades, semesters);
@@ -182,10 +79,6 @@ const querySubjects = async () => {
     );
     console.log('Formatted Subjects:', formattedSubjects);
     return formattedSubjects;
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //return subjects;
   } catch (error) {
     throw new Error('Error fetching subjects with grades');
   }
@@ -200,12 +93,12 @@ const querySubjects = async () => {
 const getSubjectById = async (id) => {
   try {
     const subjects = await querySubjects();
-    const subject = subjects.find((subject) => subject._id.toString() === id.toString());
+    const subject = subjects.find((subject) => subject.subjectId.toString() === id.toString());
 
     if (!subject) {
       throw new Error('Subject not found');
     }
-
+    console.log('SUBJECT: ', subject);
     return subject;
   } catch (error) {
     throw new Error('Error finding subject by ID');
