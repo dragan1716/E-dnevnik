@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 import { RxCalendar } from "react-icons/rx";
 import { FaGraduationCap } from "react-icons/fa6";
 import { FaRegChartBar } from "react-icons/fa";
-import { TfiAlarmClock } from "react-icons/tfi";
-import { SlBadge } from "react-icons/sl";
-import { BsPersonArmsUp } from "react-icons/bs";
+// import { TfiAlarmClock } from "react-icons/tfi";
+// import { SlBadge } from "react-icons/sl";
+// import { BsPersonArmsUp } from "react-icons/bs";
 import { FaTableList } from "react-icons/fa6";
 import { useState } from "react";
 import { DropdownMenu } from "../Menu/DropdownMenu";
@@ -67,7 +67,7 @@ const Navbar = () => {
                 closeMenu();
               }}
             >
-              <span>Vremenska linija</span>
+              <span className={classes["name"]}>Vremenska linija</span>
               <RxCalendar />
             </NavLink>
           </li>
@@ -77,7 +77,7 @@ const Navbar = () => {
               className={classes["link"]}
               style={navLinksStyles}
             >
-              <span>Ocjene</span>
+              <span className={classes["name"]}>Ocjene</span>
               <FaGraduationCap />
             </NavLink>
           </li>
@@ -87,11 +87,11 @@ const Navbar = () => {
               className={classes["link"]}
               style={navLinksStyles}
             >
-              <span>Aktivnosti</span>
+              <span className={classes["name"]}>Aktivnosti</span>
               <FaRegChartBar />
             </NavLink>
           </li>
-          <li className={`${classes["top-nav-item"]}`}>
+          {/* <li className={`${classes["top-nav-item"]}`}>
             <NavLink
               to="izostanci"
               className={classes["link"]}
@@ -100,8 +100,8 @@ const Navbar = () => {
               <span>Izostanci</span>
               <TfiAlarmClock />
             </NavLink>
-          </li>
-          <li className={`${classes["top-nav-item"]}`}>
+          </li> */}
+          {/* <li className={`${classes["top-nav-item"]}`}>
             <NavLink
               to="/pohvale"
               className={classes["link"]}
@@ -110,8 +110,8 @@ const Navbar = () => {
               <span>Pohvale i mjere</span>
               <SlBadge />
             </NavLink>
-          </li>
-          <li className={`${classes["top-nav-item"]}`}>
+          </li> */}
+          {/* <li className={`${classes["top-nav-item"]}`}>
             <NavLink
               to="/vladanje"
               className={classes["link"]}
@@ -120,14 +120,14 @@ const Navbar = () => {
               <span>Vladanje</span>
               <BsPersonArmsUp />
             </NavLink>
-          </li>
+          </li> */}
           <li className={`${classes["top-nav-item"]}`}>
             <NavLink
-              to="/predmeti"
+              to="/courses"
               className={classes["link"]}
               style={navLinksStyles}
             >
-              <span>Svi predmeti</span>
+              <span className={classes["name"]}>Svi predmeti</span>
               <FaTableList />
             </NavLink>
           </li>
