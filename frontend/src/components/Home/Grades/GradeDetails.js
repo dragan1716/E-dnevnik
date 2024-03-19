@@ -3,7 +3,6 @@ import Layout from "../../layout/Layout";
 import classes from "./GradeDetails.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-//ugnijezditi sve da se salje sa apija, predmet, semestar, ocjena, typr-datum
 
 const GradeDetails = () => {
   const { id } = useParams();
@@ -31,16 +30,17 @@ const GradeDetails = () => {
 
   const firstSemesterGrades =
     subjectDetails && subjectDetails.semesters
-      ? subjectDetails.semesters.find(
-          (semester) => semester.semesterType === "winter"
-        )?.grades || []
+      ? subjectDetails.semesters
+          .find((semester) => semester.semesterType === "winter")
+          ?.grades.filter((grade) => grade.type !== "activity") || []
       : [];
+  console.log("Prvi semestar: ", firstSemesterGrades);
 
   const secondSemesterGrades =
     subjectDetails && subjectDetails.semesters
-      ? subjectDetails.semesters.find(
-          (semester) => semester.semesterType === "summer"
-        )?.grades || []
+      ? subjectDetails.semesters
+          .find((semester) => semester.semesterType === "summer")
+          ?.grades.filter((grade) => grade.type !== "activity") || []
       : [];
 
   const gradeValueText = (grade) => {
@@ -57,8 +57,8 @@ const GradeDetails = () => {
 
   const gradeTypeText = (grade) => {
     const gradeTypeDescription = {
-      kz: "Kontrolni zadatak",
-      uo: "Usmeni odgovor",
+      kontrolni_zadatak: "Kontrolni zadatak",
+      usmeni_odgovor: "Usmeni odgovor",
     };
     return gradeTypeDescription[grade];
   };
@@ -66,7 +66,7 @@ const GradeDetails = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Dodajemo 1 jer mjeseci počinju od 0
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
 
     return `${day}. ${month}. ${year}`;
