@@ -46,6 +46,25 @@
   font-size: 18px;
 }
 
+.description-grade {
+  margin-bottom: 10px;
+}
+
+.face-smile {
+  color: #28a79a;
+  margin-top: 10px;
+}
+
+.face-meh {
+  color: #ec9f05;
+  margin-top: 10px;
+}
+
+.face-frown {
+  color: #a31422;
+  margin-top: 10px;
+}
+
 @media screen and (max-width: 1024px) {
   .grade {
     font-size: 50px;
