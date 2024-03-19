@@ -6,6 +6,8 @@ import GradeDetails from "./components/Home/Grades/GradeDetails";
 import Grades from "./components/Home/Grades/Grades";
 import Activities from "./components/Home/Activities/Activities";
 import Timeline from "./components/Home/Timeline/Timeline";
+import ActivityDetails from "./components/Home/Activities/ActivityDetails";
+import AllSubjects from "./components/Home/Subjects/AllSubjects";
 
 function App() {
   return (
@@ -14,10 +16,12 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/subject/:id" element={<GradeDetails />} />
+        <Route path="/subjects/:id" element={<GradeDetails />} />
         <Route path="/" element={<Timeline />} />
         <Route path="/grades" element={<Grades />} />
         <Route path="/activities" element={<Activities />} />
+        <Route path="/activities/:id" element={<ActivityDetails />} />
+        <Route path="/courses" element={<AllSubjects />} />
       </Routes>
     </>
   );
