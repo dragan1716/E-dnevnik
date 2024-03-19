@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { objectId } = require('./custom.validation');
 
 const createSubject = {
   body: Joi.object().keys({
@@ -15,7 +16,14 @@ const getSubjects = {
   }),
 };
 
+const getSubjectById = {
+  params: Joi.object().keys({
+    subjectId: Joi.string().custom(objectId),
+  }),
+};
+
 module.exports = {
   createSubject,
   getSubjects,
+  getSubjectById,
 };
